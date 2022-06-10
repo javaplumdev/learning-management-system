@@ -4,6 +4,9 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import ProtectedRoute from './components/ProtectedRouter';
 import Homepage from './components/Homepage';
+// Teacer Component
+import TeacherHomePage from './components/teacher/TeacherHomePage';
+import StudentHomePage from './components/student/StudentHomePage';
 // Router DOM
 import { Routes, Route } from 'react-router-dom';
 // Context
@@ -13,22 +16,23 @@ function App() {
 	return (
 		<ContextFunction>
 			<div className="App">
-				<div className="loginFormContainer p-3">
-					<Routes>
-						<Route path="/" element={<Login />} />
+				<Routes>
+					<Route path="/" element={<Login />} />
 
-						<Route
-							path="/homepage"
-							element={
-								<ProtectedRoute>
-									<Homepage />
-								</ProtectedRoute>
-							}
-						/>
+					<Route
+						path="/homepage"
+						element={
+							<ProtectedRoute>
+								<Homepage />
+							</ProtectedRoute>
+						}
+					/>
 
-						<Route path="/signup" element={<Signup />} />
-					</Routes>
-				</div>
+					<Route path="/teacherhomepage" element={<TeacherHomePage />} />
+					<Route path="/studenthomepage" element={<StudentHomePage />} />
+
+					<Route path="/signup" element={<Signup />} />
+				</Routes>
 			</div>
 		</ContextFunction>
 	);

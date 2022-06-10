@@ -34,66 +34,68 @@ const Signup = () => {
 	};
 
 	return (
-		<Container className="shadow p-4" style={{ width: '360px' }}>
-			<Form onSubmit={handleSubmit}>
-				<h3 className="text-center display-6">Sign up</h3>
-				{error && <Alert variant="danger">{error}</Alert>}
+		<div className="loginFormContainer p-3">
+			<Container className="shadow p-4" style={{ width: '360px' }}>
+				<Form onSubmit={handleSubmit}>
+					<h3 className="text-center display-6">Sign up</h3>
+					{error && <Alert variant="danger">{error}</Alert>}
 
-				<Form.Group className="my-3" controlId="exampleForm.ControlInput1">
-					<Form.Label>Email address</Form.Label>
-					<Form.Control
-						type="email"
-						placeholder="Email"
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-				</Form.Group>
-				<Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-					<Form.Label>Password</Form.Label>
-					<Form.Control
-						type="text"
-						placeholder="Password"
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-				</Form.Group>
-				<Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-					<Form.Label>What are you?</Form.Label>
-					<br></br>
-					<ButtonGroup className="w-100">
-						{radios.map((radio, idx) => (
-							<ToggleButton
-								key={idx}
-								id={`radio-${idx}`}
-								type="radio"
-								variant={idx % 2 ? 'outline-primary' : 'outline-primary'}
-								name="radio"
-								value={radio.value}
-								checked={radioValue === radio.value}
-								onChange={(e) => setRadioValue(e.currentTarget.value)}
-							>
-								{radio.name}
-							</ToggleButton>
-						))}
-					</ButtonGroup>
-				</Form.Group>
-				<Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-					<Button className="w-100" type="submit">
-						Create Account
-					</Button>
-				</Form.Group>
-				<hr></hr>
-				<Form.Group
-					className="mb-3 text-center "
-					controlId="exampleForm.ControlTextarea1"
-				>
-					<p>
-						Already have an account?{' '}
-						<Link to="/" className="text-decoration-none text-primary">
-							Log in
-						</Link>
-					</p>
-				</Form.Group>
-			</Form>
-		</Container>
+					<Form.Group className="my-3" controlId="exampleForm.ControlInput1">
+						<Form.Label>Email address</Form.Label>
+						<Form.Control
+							type="email"
+							placeholder="Email"
+							onChange={(e) => setEmail(e.target.value)}
+						/>
+					</Form.Group>
+					<Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+						<Form.Label>Password</Form.Label>
+						<Form.Control
+							type="text"
+							placeholder="Password"
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+					</Form.Group>
+					<Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+						<Form.Label>What are you?</Form.Label>
+						<br></br>
+						<ButtonGroup className="w-100">
+							{radios.map((radio, idx) => (
+								<ToggleButton
+									key={idx}
+									id={`radio-${idx}`}
+									type="radio"
+									variant={idx % 2 ? 'outline-primary' : 'outline-primary'}
+									name="radio"
+									value={radio.value}
+									checked={radioValue === radio.value}
+									onChange={(e) => setRadioValue(e.currentTarget.value)}
+								>
+									{radio.name}
+								</ToggleButton>
+							))}
+						</ButtonGroup>
+					</Form.Group>
+					<Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+						<Button className="w-100" type="submit">
+							Create Account
+						</Button>
+					</Form.Group>
+					<hr></hr>
+					<Form.Group
+						className="mb-3 text-center "
+						controlId="exampleForm.ControlTextarea1"
+					>
+						<p>
+							Already have an account?{' '}
+							<Link to="/" className="text-decoration-none text-primary">
+								Log in
+							</Link>
+						</p>
+					</Form.Group>
+				</Form>
+			</Container>
+		</div>
 	);
 };
 

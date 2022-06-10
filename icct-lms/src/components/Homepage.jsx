@@ -1,35 +1,26 @@
-import { useContext } from 'react';
-// React bootstrap
-import { Button } from 'react-bootstrap';
+import { useContext, useEffect } from 'react';
 // Context
 import { ContextVariable } from '../context/context-config';
 // React DOM
 import { useNavigate } from 'react-router-dom';
 
 const Homepage = () => {
-	const { logOut, user } = useContext(ContextVariable);
+	const { userData, userID } = useContext(ContextVariable);
 	const navigate = useNavigate();
-
-	const handleLogout = async () => {
-		try {
-			await logOut();
-			navigate('/');
-		} catch (error) {
-			console.log(error.message);
-		}
-	};
 
 	return (
 		<>
-			<div className="p-4 box mt-3 text-center">
-				Hello Welcome <br />
-				<p>{user.email}</p>
-			</div>
-			<div className="d-grid gap-2">
-				<Button variant="primary" onClick={handleLogout}>
-					Log out
-				</Button>
-			</div>
+			{useEffect(() => {
+				userData.map((item) => {
+					if (item.id === userID) {
+						if (item.userType === '1') {
+							navigate('/teacherhomepage');
+						} else if (item.userType === '2') {
+							navigate('/studenthomepage');
+						}
+					}
+				});
+			}, [])}
 		</>
 	);
 };

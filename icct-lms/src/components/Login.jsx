@@ -27,45 +27,47 @@ const Login = () => {
 	};
 
 	return (
-		<Container className="shadow p-4" style={{ width: '360px' }}>
-			<Form onSubmit={handleSubmit}>
-				<h3 className="text-center display-6">Log in</h3>
-				{error && <Alert variant="danger">{error}</Alert>}
-				<Form.Group className="my-3" controlId="exampleForm.ControlInput1">
-					<Form.Label>Email address</Form.Label>
-					<Form.Control
-						type="email"
-						placeholder="Email"
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-				</Form.Group>
-				<Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-					<Form.Label>Password</Form.Label>
-					<Form.Control
-						type="text"
-						placeholder="Password"
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-				</Form.Group>
-				<Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-					<Button className="w-100" type="submit">
-						Login
-					</Button>
-				</Form.Group>
-				<hr></hr>
-				<Form.Group
-					className="mb-3 text-center "
-					controlId="exampleForm.ControlTextarea1"
-				>
-					<p>
-						Forget account?{' '}
-						<Link to="/signup" className="text-decoration-none text-primary">
-							Sign up
-						</Link>
-					</p>
-				</Form.Group>
-			</Form>
-		</Container>
+		<div className="loginFormContainer p-3">
+			<Container className="shadow p-4" style={{ width: '360px' }}>
+				<Form onSubmit={handleSubmit}>
+					<h3 className="text-center display-6">Log in</h3>
+					{error && <Alert variant="danger">{error}</Alert>}
+					<Form.Group className="my-3" controlId="exampleForm.ControlInput1">
+						<Form.Label>Email address</Form.Label>
+						<Form.Control
+							type="email"
+							placeholder="Email"
+							onChange={(e) => setEmail(e.target.value)}
+						/>
+					</Form.Group>
+					<Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+						<Form.Label>Password</Form.Label>
+						<Form.Control
+							type="text"
+							placeholder="Password"
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+					</Form.Group>
+					<Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+						<Button className="w-100" type="submit">
+							Login
+						</Button>
+					</Form.Group>
+					<hr></hr>
+					<Form.Group
+						className="mb-3 text-center "
+						controlId="exampleForm.ControlTextarea1"
+					>
+						<p>
+							Forget account?{' '}
+							<Link to="/signup" className="text-decoration-none text-primary">
+								Sign up
+							</Link>
+						</p>
+					</Form.Group>
+				</Form>
+			</Container>
+		</div>
 	);
 };
 
