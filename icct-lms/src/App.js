@@ -16,7 +16,6 @@ function App() {
 				<div className="loginFormContainer p-3">
 					<Routes>
 						<Route path="/" element={<Login />} />
-						<Route path="/signup" element={<Signup />} />
 
 						<Route
 							path="/homepage"
@@ -26,6 +25,8 @@ function App() {
 								</ProtectedRoute>
 							}
 						/>
+
+						<Route path="/signup" element={<Signup />} />
 					</Routes>
 				</div>
 			</div>

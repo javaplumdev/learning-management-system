@@ -5,9 +5,8 @@ import { ContextVariable } from '../context/context-config';
 const ProtectedRoute = ({ children }) => {
 	const { user } = useContext(ContextVariable);
 
-	console.log('Check user in Private: ', user);
 	if (!user) {
-		return <Navigate to="/" />;
+		return <Navigate to="/" replace />;
 	}
 	return children;
 };

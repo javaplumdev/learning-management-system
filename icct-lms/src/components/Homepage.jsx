@@ -19,27 +19,17 @@ const Homepage = () => {
 		}
 	};
 
-	console.log(user);
-
 	return (
 		<>
-			{!user ? (
-				<>
-					<p>Hi</p>
-				</>
-			) : (
-				<>
-					<div className="p-4 box mt-3 text-center">
-						Hello Welcome <br />
-						<p>{user.email}</p>
-					</div>
-					<div className="d-grid gap-2">
-						<Button variant="primary" onClick={handleLogout}>
-							Log out
-						</Button>
-					</div>
-				</>
-			)}
+			<div className="p-4 box mt-3 text-center">
+				Hello Welcome <br />
+				<p>{user.email}</p>
+			</div>
+			<div className="d-grid gap-2">
+				<Button variant="primary" onClick={handleLogout}>
+					Log out
+				</Button>
+			</div>
 		</>
 	);
 };
