@@ -14,15 +14,32 @@ const Homepage = () => {
 		try {
 			await logOut();
 			navigate('/');
-		} catch (e) {
-			console.log(e.message);
+		} catch (error) {
+			console.log(error.message);
 		}
 	};
 
+	console.log(user);
+
 	return (
 		<>
-			<p>{user.email}</p>
-			<Button onClick={handleLogout}>Sign out</Button>
+			{!user ? (
+				<>
+					<p>Hi</p>
+				</>
+			) : (
+				<>
+					<div className="p-4 box mt-3 text-center">
+						Hello Welcome <br />
+						<p>{user.email}</p>
+					</div>
+					<div className="d-grid gap-2">
+						<Button variant="primary" onClick={handleLogout}>
+							Log out
+						</Button>
+					</div>
+				</>
+			)}
 		</>
 	);
 };

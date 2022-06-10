@@ -2,7 +2,7 @@ import './App.css';
 // Components
 import Login from './components/Login';
 import Signup from './components/Signup';
-import ProtectedRouter from './components/ProtectedRouter';
+import ProtectedRoute from './components/ProtectedRouter';
 import Homepage from './components/Homepage';
 // Router DOM
 import { Routes, Route } from 'react-router-dom';
@@ -17,12 +17,13 @@ function App() {
 					<Routes>
 						<Route path="/" element={<Login />} />
 						<Route path="/signup" element={<Signup />} />
+
 						<Route
 							path="/homepage"
 							element={
-								<ProtectedRouter>
+								<ProtectedRoute>
 									<Homepage />
-								</ProtectedRouter>
+								</ProtectedRoute>
 							}
 						/>
 					</Routes>

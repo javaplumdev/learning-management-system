@@ -12,16 +12,9 @@ import {
 export const ContextVariable = createContext();
 
 export const ContextFunction = ({ children }) => {
-	const [userDetails, setUserDetails] = useState({});
 	const [user, setUser] = useState({});
 
 	const signUp = (email, password, userType) => {
-		setUserDetails({
-			email: email,
-			passowrd: password,
-			userType: userType,
-		});
-
 		return createUserWithEmailAndPassword(firebaseAuth, email, password);
 	};
 
@@ -34,16 +27,12 @@ export const ContextFunction = ({ children }) => {
 	};
 
 	useEffect(() => {
-		const onMountChange = onAuthStateChanged(firebaseAuth, (currentUser) => {
-			if (currentUser === null) {
-				return true;
-			} else {
-				setUser(currentUser);
-			}
+		const unsubscribe = onAuthStateChanged(firebaseAuth, (currentuser) => {
+			setUser(currentuser);
 		});
 
 		return () => {
-			onMountChange();
+			unsubscribe();
 		};
 	}, []);
 

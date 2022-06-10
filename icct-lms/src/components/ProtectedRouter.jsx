@@ -1,18 +1,15 @@
-//React
-import { useContext } from 'react';
-// Context
-import { ContextVariable } from '../context/context-config';
-// Context
+import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
+import { ContextVariable } from '../context/context-config';
 
-const ProtectedRouter = ({ children }) => {
+const ProtectedRoute = ({ children }) => {
 	const { user } = useContext(ContextVariable);
 
+	console.log('Check user in Private: ', user);
 	if (!user) {
-		<Navigate to="/" />;
+		return <Navigate to="/" />;
 	}
-
 	return children;
 };
 
-export default ProtectedRouter;
+export default ProtectedRoute;
