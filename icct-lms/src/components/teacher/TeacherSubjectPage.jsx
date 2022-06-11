@@ -3,7 +3,7 @@ import { useContext } from 'react';
 // Components
 import NavbarComponent from './NavbarComponent';
 // Bootsrtap
-import { Container, Button, Row, Col } from 'react-bootstrap';
+import { Container, Button, Row, Col, Modal, Form } from 'react-bootstrap';
 // React DOM
 import { useParams, Link } from 'react-router-dom';
 import { ContextVariable } from '../../context/context-config';
@@ -11,6 +11,11 @@ import { ContextVariable } from '../../context/context-config';
 const TeacherSubjectPage = () => {
 	const { id } = useParams();
 	const { subjectData } = useContext(ContextVariable);
+
+	const { show, handleClose, handleShow, setQuizName, setQuizDescription } =
+		useContext(ContextVariable);
+
+	const { createActivities, addQuestion } = useContext(ContextVariable);
 
 	const subject = subjectData.filter((sub) => sub.subjectID === id);
 
@@ -29,9 +34,42 @@ const TeacherSubjectPage = () => {
 								<Button variant="outline-primary" className="m-2">
 									Post
 								</Button>
-								<Link to={`/createquiz/${item.subjectName}/${item.subjectID}`}>
-									<Button>Add activities</Button>
-								</Link>
+
+								<Button onClick={handleShow}>Add activities</Button>
+								{/* Modal */}
+								<Modal show={show} onHide={handleClose}>
+									<Modal.Header closeButton>
+										<Modal.Title>Modal heading</Modal.Title>
+									</Modal.Header>
+									<Modal.Body>
+										<Form.Group className="mb-3">
+											<Form.Control
+												type="text"
+												placeholder="Quiz name"
+												onChange={(e) => setQuizName(e.target.value)}
+											/>
+										</Form.Group>
+										<Form.Group className="my-3">
+											<Form.Control
+												type="text"
+												placeholder="Quiz description"
+												onChange={(e) => setQuizDescription(e.target.value)}
+											/>
+										</Form.Group>
+									</Modal.Body>
+									<Modal.Footer>
+										<Button variant="secondary" onClick={handleClose}>
+											Close
+										</Button>
+										<Link
+											to={`/createquiz/${item.subjectName}/${item.subjectID}`}
+										>
+											<Button onClick={() => createActivities(id)}>
+												Create activities
+											</Button>
+										</Link>
+									</Modal.Footer>
+								</Modal>
 							</div>
 						</div>
 					);
@@ -50,7 +88,7 @@ const TeacherSubjectPage = () => {
 							<div className="border p-3 rounded">
 								<div className="d-flex justify-content-between align-items-center">
 									<b>Activity name</b>
-									<Button>Take quiz</Button>
+									<Button>See quiz</Button>
 								</div>
 								<div className="mt-3">
 									<p>Quiz description</p>

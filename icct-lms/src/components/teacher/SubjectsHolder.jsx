@@ -40,10 +40,8 @@ const SubjectsHolder = () => {
 									placeholder="Subject name"
 									onChange={(e) => setSubjectName(e.target.value)}
 								/>
-								{/* <div className="d-flex justify-content-center align-items-center my-3">
-									<h4 className=" rounded w-100 me-3">Subject Code</h4>
-									<Button variant="outline-primary">Generate</Button>
-								</div> */}
+							</Form.Group>
+							<Form.Group className="my-3">
 								<Form.Control
 									type="text"
 									placeholder="Subject code"

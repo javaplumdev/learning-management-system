@@ -10,7 +10,8 @@ import { ContextVariable } from '../../context/context-config';
 
 const CreateQuiz = () => {
 	const { id } = useParams();
-	const { subjectData, addActivities } = useContext(ContextVariable);
+
+	const { addActivities } = useContext(ContextVariable);
 
 	const [quizDetails, setQuizDetails] = useState({
 		quizName: '',
@@ -35,34 +36,16 @@ const CreateQuiz = () => {
 						<Col md="3" className="mt-3">
 							<div className="border rounded p-3 ">
 								<p>Quiz details</p>
-								<Button variant="outline-primary" className="me-3">
+								<Button
+									variant="outline-primary"
+									className="m-1"
+									onClick={() => addActivities(id)}
+								>
 									Add
 								</Button>
-								<Button onClick={() => addActivities(id)}>Submit</Button>
 							</div>
 						</Col>
 						<Col md="9" className="mt-3">
-							<Form.Group className="mb-3">
-								<Form.Label>Quiz name</Form.Label>
-								<Form.Control
-									type="email"
-									placeholder="Quiz name"
-									onChange={(e) =>
-										setQuizDetails((prevState) => {
-											return {
-												...prevState,
-												quizName: e.target.value,
-											};
-										})
-									}
-								/>
-							</Form.Group>
-
-							<Form.Group className="mb-3">
-								<Form.Label>Quiz description</Form.Label>
-								<Form.Control type="text" placeholder="Quiz description" />
-							</Form.Group>
-
 							<Form.Group className="mb-3">
 								<Form.Label>Answers</Form.Label>
 								<Form.Control
@@ -97,7 +80,7 @@ const CreateQuiz = () => {
 							<Form.Group className="mb-3">
 								<Form.Control
 									type="text"
-									text="C"
+									placeholder="C"
 									onChange={(e) =>
 										setQuizDetails((prevState) => {
 											return {
@@ -138,6 +121,9 @@ const CreateQuiz = () => {
 										})
 									}
 								/>
+								<Form.Text className="mt-1" muted>
+									The correct answer must be the LETTER.
+								</Form.Text>
 							</Form.Group>
 						</Col>
 					</Row>

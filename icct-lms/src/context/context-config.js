@@ -16,6 +16,7 @@ import {
 	addDoc,
 	onSnapshot,
 	arrayUnion,
+	updateDoc,
 } from 'firebase/firestore';
 import { db } from '../firebase/firebase-config';
 // UUID
@@ -30,6 +31,8 @@ export const ContextFunction = ({ children }) => {
 	const [userData, setUserData] = useState([]);
 	const [userID, setUserID] = useState('');
 	const [subjectData, setSubjectData] = useState([]);
+	const [quizName, setQuizName] = useState('');
+	const [quizDescription, setQuizDescription] = useState('');
 
 	// For opening a modal
 	const [show, setShow] = useState(false);
@@ -135,23 +138,29 @@ export const ContextFunction = ({ children }) => {
 		});
 	}, []);
 
-	const activitiesCollectionRef = collection(db, 'activities');
-
-	const addActivities = async (id) => {
-		await addDoc(activitiesCollectionRef, {
+	const activityRef = doc(db, 'activities', uuidv4());
+	const createActivities = async (id) => {
+		await setDoc(doc(db, 'activities', uuidv4()), {
+			quizID: uuidv4(),
 			subjectID: id,
-			owner: userID,
-			quiz: arrayUnion({
-				quizName: '',
-				quizDesription: '',
-				a: '',
-				b: '',
-				c: '',
-				d: '',
-				correctAnswer: '',
-			}),
+			ownerID: userID,
+			quizName: quizName,
+			quizDescription: quizDescription,
+			quiz: [],
 		});
 	};
+
+	// const addActivities = async () => {
+	// 	await updateDoc(activityRef, {
+	// 		quiz: arrayUnion({
+	// 			a: '',
+	// 			b: '',
+	// 			c: '',
+	// 			d: '',
+	// 			correctAnswer: '',
+	// 		}),
+	// 	});
+	// };
 
 	return (
 		<ContextVariable.Provider
@@ -169,7 +178,9 @@ export const ContextFunction = ({ children }) => {
 				handleClose,
 				handleShow,
 				subjectData,
-				addActivities,
+				createActivities,
+				setQuizDescription,
+				setQuizName,
 			}}
 		>
 			{children}
