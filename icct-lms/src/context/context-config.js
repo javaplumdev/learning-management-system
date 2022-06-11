@@ -8,8 +8,17 @@ import {
 	signInWithEmailAndPassword,
 	signOut,
 } from 'firebase/auth';
-import { setDoc, doc, getDocs, collection } from 'firebase/firestore';
+import {
+	setDoc,
+	doc,
+	getDocs,
+	collection,
+	addDoc,
+	onSnapshot,
+} from 'firebase/firestore';
 import { db } from '../firebase/firebase-config';
+// UUID
+import { v4 as uuidv4 } from 'uuid';
 
 export const ContextVariable = createContext();
 
@@ -19,6 +28,13 @@ export const ContextFunction = ({ children }) => {
 	const [userDetails, setUserDetails] = useState({});
 	const [userData, setUserData] = useState([]);
 	const [userID, setUserID] = useState('');
+	const [subjectData, setSubjectData] = useState([]);
+
+	// For opening a modal
+	const [show, setShow] = useState(false);
+
+	const handleClose = () => setShow(false);
+	const handleShow = () => setShow(true);
 
 	const signUp = (email, password, userType) => {
 		setUserDetails({
@@ -58,11 +74,6 @@ export const ContextFunction = ({ children }) => {
 		};
 	}, []);
 
-	// Is logged in
-	// useEffect(() => {
-	// 	localStorage.setItem('isLoggedIn', isLoggedIn);
-	// });
-
 	const connectUID = async (uid, email) => {
 		if (
 			userDetails.password === undefined &&
@@ -90,9 +101,56 @@ export const ContextFunction = ({ children }) => {
 		getUsers();
 	}, []);
 
+	const subjectCollectionRef = collection(db, 'subjects');
+
+	const addSubject = async (subjectName, subjectCode) => {
+		await addDoc(subjectCollectionRef, {
+			subjectID: uuidv4(),
+			owner: userID,
+			subjectName: subjectName,
+			subjectCode: subjectCode,
+		});
+
+		handleClose();
+	};
+
+	useEffect(() => {
+		const getSubjectData = async () => {
+			const data = await getDocs(subjectCollectionRef);
+
+			setSubjectData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+		};
+
+		return () => {
+			getSubjectData();
+		};
+	}, []);
+
+	useEffect(() => {
+		onSnapshot(collection(db, 'subjects'), (snapShot) => {
+			setSubjectData(
+				snapShot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+			);
+		});
+	}, []);
+
 	return (
 		<ContextVariable.Provider
-			value={{ logOut, signUp, signIn, user, isLoggedIn, userData, userID }}
+			value={{
+				logOut,
+				signUp,
+				signIn,
+				user,
+				isLoggedIn,
+				userData,
+				userID,
+				addSubject,
+				setShow,
+				show,
+				handleClose,
+				handleShow,
+				subjectData,
+			}}
 		>
 			{children}
 		</ContextVariable.Provider>
