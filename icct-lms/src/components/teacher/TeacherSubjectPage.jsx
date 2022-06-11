@@ -1,5 +1,5 @@
 // React
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 // Components
 import NavbarComponent from './NavbarComponent';
 // Bootsrtap
@@ -9,19 +9,26 @@ import { useParams, Link } from 'react-router-dom';
 import { ContextVariable } from '../../context/context-config';
 // UUID
 import { v4 as uuidv4 } from 'uuid';
+import { useEffect } from 'react';
 
 const TeacherSubjectPage = () => {
 	const { id } = useParams();
 	const { subjectData } = useContext(ContextVariable);
 
-	const { show, handleClose, handleShow, setQuizName, setQuizDescription } =
-		useContext(ContextVariable);
-
-	const { createActivities, addQuestion } = useContext(ContextVariable);
+	const {
+		show,
+		handleClose,
+		handleShow,
+		setQuizName,
+		setQuizDescription,
+		activitiesData,
+		createActivities,
+	} = useContext(ContextVariable);
 
 	const subject = subjectData.filter((sub) => sub.subjectID === id);
-
 	const activityID = uuidv4();
+
+	const activities = activitiesData.filter((act) => act.subjectID === id);
 
 	return (
 		<>
@@ -89,15 +96,19 @@ const TeacherSubjectPage = () => {
 							</div>
 						</Col>
 						<Col md="9" className="mt-3">
-							<div className="border p-3 rounded">
-								<div className="d-flex justify-content-between align-items-center">
-									<b>Activity name</b>
-									<Button>See quiz</Button>
-								</div>
-								<div className="mt-3">
-									<p>Quiz description</p>
-								</div>
-							</div>
+							{activities.map((item) => {
+								return (
+									<div key={item.quizID} className="border p-3 rounded mb-3">
+										<div className="d-flex justify-content-between align-items-center">
+											<b>{item.quizName}</b>
+											<Button>See quiz</Button>
+										</div>
+										<div className="mt-3">
+											<p>{item.quizDescription}</p>
+										</div>
+									</div>
+								);
+							})}
 						</Col>
 					</Row>
 				</div>

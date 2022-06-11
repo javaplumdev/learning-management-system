@@ -11,17 +11,21 @@ import { ContextVariable } from '../../context/context-config';
 const CreateQuiz = () => {
 	const { id } = useParams();
 
-	const { addActivities } = useContext(ContextVariable);
-
-	const [quizDetails, setQuizDetails] = useState({
-		quizName: '',
-		quizDesription: '',
-		a: '',
-		b: '',
-		c: '',
-		d: '',
-		correctAnswer: '',
-	});
+	const {
+		addActivities,
+		setQuestion,
+		setAState,
+		setBState,
+		setCState,
+		setDState,
+		setCorrectAnswer,
+		question,
+		aState,
+		bState,
+		cState,
+		dState,
+		correctAnswer,
+	} = useContext(ContextVariable);
 
 	return (
 		<>
@@ -39,7 +43,7 @@ const CreateQuiz = () => {
 								<Button
 									variant="outline-primary"
 									className="m-1"
-									onClick={() => addActivities(id)}
+									onClick={() => addActivities()}
 								>
 									Add
 								</Button>
@@ -47,18 +51,21 @@ const CreateQuiz = () => {
 						</Col>
 						<Col md="9" className="mt-3">
 							<Form.Group className="mb-3">
+								<Form.Label>Question</Form.Label>
+								<Form.Control
+									type="text"
+									placeholder="Question"
+									value={question}
+									onChange={(e) => setQuestion(e.target.value)}
+								/>
+							</Form.Group>
+							<Form.Group className="mb-3">
 								<Form.Label>Answers</Form.Label>
 								<Form.Control
 									type="text"
 									placeholder="A"
-									onChange={(e) =>
-										setQuizDetails((prevState) => {
-											return {
-												...prevState,
-												a: e.target.value,
-											};
-										})
-									}
+									value={aState}
+									onChange={(e) => setAState(e.target.value)}
 								/>
 							</Form.Group>
 
@@ -66,14 +73,8 @@ const CreateQuiz = () => {
 								<Form.Control
 									type="text"
 									placeholder="B"
-									onChange={(e) =>
-										setQuizDetails((prevState) => {
-											return {
-												...prevState,
-												b: e.target.value,
-											};
-										})
-									}
+									value={bState}
+									onChange={(e) => setBState(e.target.value)}
 								/>
 							</Form.Group>
 
@@ -81,14 +82,8 @@ const CreateQuiz = () => {
 								<Form.Control
 									type="text"
 									placeholder="C"
-									onChange={(e) =>
-										setQuizDetails((prevState) => {
-											return {
-												...prevState,
-												c: e.target.value,
-											};
-										})
-									}
+									value={cState}
+									onChange={(e) => setCState(e.target.value)}
 								/>
 							</Form.Group>
 
@@ -96,14 +91,8 @@ const CreateQuiz = () => {
 								<Form.Control
 									type="text"
 									placeholder="D"
-									onChange={(e) =>
-										setQuizDetails((prevState) => {
-											return {
-												...prevState,
-												d: e.target.value,
-											};
-										})
-									}
+									value={dState}
+									onChange={(e) => setDState(e.target.value)}
 								/>
 							</Form.Group>
 
@@ -112,14 +101,8 @@ const CreateQuiz = () => {
 								<Form.Control
 									type="text"
 									placeholder="Correct Answer"
-									onChange={(e) =>
-										setQuizDetails((prevState) => {
-											return {
-												...prevState,
-												correctAnswer: e.target.value,
-											};
-										})
-									}
+									value={correctAnswer}
+									onChange={(e) => setCorrectAnswer(e.target.value)}
 								/>
 								<Form.Text className="mt-1" muted>
 									The correct answer must be the LETTER.

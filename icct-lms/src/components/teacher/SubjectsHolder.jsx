@@ -8,14 +8,13 @@ import { Link } from 'react-router-dom';
 
 const SubjectsHolder = () => {
 	const {
-		user,
-		userData,
 		userID,
 		addSubject,
 		show,
 		handleClose,
 		handleShow,
 		subjectData,
+		activitiesData,
 	} = useContext(ContextVariable);
 
 	const [subjectName, setSubjectName] = useState('');
@@ -76,7 +75,7 @@ const SubjectsHolder = () => {
 										<p>{item.subjectName}</p>
 										<div className="d-flex">
 											<p className="me-3">0 Student</p>
-											<p>0 Activities</p>
+											<p className="me-3">0 Activities</p>
 										</div>
 									</div>
 								</div>

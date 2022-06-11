@@ -33,6 +33,7 @@ export const ContextFunction = ({ children }) => {
 	const [subjectData, setSubjectData] = useState([]);
 	const [quizName, setQuizName] = useState('');
 	const [quizDescription, setQuizDescription] = useState('');
+	const [activitiesData, setActivitiesData] = useState([]);
 
 	// For opening a modal
 	const [show, setShow] = useState(false);
@@ -138,6 +139,14 @@ export const ContextFunction = ({ children }) => {
 		});
 	}, []);
 
+	useEffect(() => {
+		onSnapshot(collection(db, 'activities'), (snapShot) => {
+			setActivitiesData(
+				snapShot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+			);
+		});
+	}, []);
+
 	const [activityID, setActivityID] = useState('');
 
 	const createActivities = async (id, activityID) => {
@@ -152,20 +161,32 @@ export const ContextFunction = ({ children }) => {
 		});
 	};
 
+	const [question, setQuestion] = useState('');
+	const [aState, setAState] = useState('');
+	const [bState, setBState] = useState('');
+	const [cState, setCState] = useState('');
+	const [dState, setDState] = useState('');
+	const [correctAnswer, setCorrectAnswer] = useState('');
+
 	const addActivities = async () => {
 		const activityRef = doc(db, 'activities', activityID);
 		await updateDoc(activityRef, {
-			quiz: arrayUnion(
-				{
-					a: '',
-					b: '',
-					c: '',
-					d: '',
-					correctAnswer: '',
-				},
-				{ merge: true }
-			),
+			quiz: arrayUnion({
+				question: question,
+				a: aState,
+				b: bState,
+				c: cState,
+				d: dState,
+				correctAnswer: correctAnswer,
+			}),
 		});
+
+		setQuestion('');
+		setAState('');
+		setBState('');
+		setCState('');
+		setDState('');
+		setCorrectAnswer('');
 	};
 
 	return (
@@ -188,6 +209,19 @@ export const ContextFunction = ({ children }) => {
 				setQuizDescription,
 				setQuizName,
 				addActivities,
+				setQuestion,
+				setAState,
+				setBState,
+				setCState,
+				setDState,
+				setCorrectAnswer,
+				question,
+				aState,
+				bState,
+				cState,
+				dState,
+				correctAnswer,
+				activitiesData,
 			}}
 		>
 			{children}
