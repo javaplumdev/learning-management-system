@@ -7,6 +7,8 @@ import { Container, Button, Row, Col, Modal, Form } from 'react-bootstrap';
 // React DOM
 import { useParams, Link } from 'react-router-dom';
 import { ContextVariable } from '../../context/context-config';
+// UUID
+import { v4 as uuidv4 } from 'uuid';
 
 const TeacherSubjectPage = () => {
 	const { id } = useParams();
@@ -18,6 +20,8 @@ const TeacherSubjectPage = () => {
 	const { createActivities, addQuestion } = useContext(ContextVariable);
 
 	const subject = subjectData.filter((sub) => sub.subjectID === id);
+
+	const activityID = uuidv4();
 
 	return (
 		<>
@@ -64,7 +68,7 @@ const TeacherSubjectPage = () => {
 										<Link
 											to={`/createquiz/${item.subjectName}/${item.subjectID}`}
 										>
-											<Button onClick={() => createActivities(id)}>
+											<Button onClick={() => createActivities(id, activityID)}>
 												Create activities
 											</Button>
 										</Link>

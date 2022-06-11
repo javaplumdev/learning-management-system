@@ -138,10 +138,12 @@ export const ContextFunction = ({ children }) => {
 		});
 	}, []);
 
-	const activityRef = doc(db, 'activities', uuidv4());
-	const createActivities = async (id) => {
-		await setDoc(doc(db, 'activities', uuidv4()), {
-			quizID: uuidv4(),
+	const [activityID, setActivityID] = useState('');
+
+	const createActivities = async (id, activityID) => {
+		setActivityID(activityID);
+		await setDoc(doc(db, 'activities', activityID), {
+			quizID: activityID,
 			subjectID: id,
 			ownerID: userID,
 			quizName: quizName,
@@ -150,17 +152,21 @@ export const ContextFunction = ({ children }) => {
 		});
 	};
 
-	// const addActivities = async () => {
-	// 	await updateDoc(activityRef, {
-	// 		quiz: arrayUnion({
-	// 			a: '',
-	// 			b: '',
-	// 			c: '',
-	// 			d: '',
-	// 			correctAnswer: '',
-	// 		}),
-	// 	});
-	// };
+	const addActivities = async () => {
+		const activityRef = doc(db, 'activities', activityID);
+		await updateDoc(activityRef, {
+			quiz: arrayUnion(
+				{
+					a: '',
+					b: '',
+					c: '',
+					d: '',
+					correctAnswer: '',
+				},
+				{ merge: true }
+			),
+		});
+	};
 
 	return (
 		<ContextVariable.Provider
@@ -181,6 +187,7 @@ export const ContextFunction = ({ children }) => {
 				createActivities,
 				setQuizDescription,
 				setQuizName,
+				addActivities,
 			}}
 		>
 			{children}
