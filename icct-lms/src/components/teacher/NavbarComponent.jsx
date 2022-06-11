@@ -4,7 +4,7 @@ import { useContext } from 'react';
 // Context
 import { ContextVariable } from '../../context/context-config';
 // React DOM
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const NavbarComponent = () => {
 	const { logOut } = useContext(ContextVariable);
@@ -22,7 +22,9 @@ const NavbarComponent = () => {
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="light" variant="light">
 			<Container>
-				<Navbar.Brand href="#home">ICCT LMS Teacher</Navbar.Brand>
+				<Link to="/teacherhomepage" className="text-decoration-none">
+					<h5 className="text-dark">ICCT LMS Teacher</h5>
+				</Link>
 				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<Nav className="me-auto">

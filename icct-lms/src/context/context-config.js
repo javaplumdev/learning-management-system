@@ -15,6 +15,7 @@ import {
 	collection,
 	addDoc,
 	onSnapshot,
+	arrayUnion,
 } from 'firebase/firestore';
 import { db } from '../firebase/firebase-config';
 // UUID
@@ -134,6 +135,24 @@ export const ContextFunction = ({ children }) => {
 		});
 	}, []);
 
+	const activitiesCollectionRef = collection(db, 'activities');
+
+	const addActivities = async (id) => {
+		await addDoc(activitiesCollectionRef, {
+			subjectID: id,
+			owner: userID,
+			quiz: arrayUnion({
+				quizName: '',
+				quizDesription: '',
+				a: '',
+				b: '',
+				c: '',
+				d: '',
+				correctAnswer: '',
+			}),
+		});
+	};
+
 	return (
 		<ContextVariable.Provider
 			value={{
@@ -150,6 +169,7 @@ export const ContextFunction = ({ children }) => {
 				handleClose,
 				handleShow,
 				subjectData,
+				addActivities,
 			}}
 		>
 			{children}

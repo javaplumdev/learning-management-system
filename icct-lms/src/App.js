@@ -4,9 +4,11 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import ProtectedRoute from './components/ProtectedRouter';
 import Homepage from './components/Homepage';
-// Teacer Component
+// Teacher Component
 import TeacherHomePage from './components/teacher/TeacherHomePage';
 import StudentHomePage from './components/student/StudentHomePage';
+import TeacherSubjectPage from './components/teacher/TeacherSubjectPage';
+import CreateQuiz from './components/teacher/CreateQuiz';
 // Router DOM
 import { Routes, Route } from 'react-router-dom';
 // Context
@@ -30,6 +32,12 @@ function App() {
 
 					<Route path="/teacherhomepage" element={<TeacherHomePage />} />
 					<Route path="/studenthomepage" element={<StudentHomePage />} />
+					<Route
+						path="/teacherspage/:subjectName/:id"
+						element={<TeacherSubjectPage />}
+					/>
+
+					<Route path="/createquiz/:subjectName/:id" element={<CreateQuiz />} />
 
 					<Route path="/signup" element={<Signup />} />
 				</Routes>

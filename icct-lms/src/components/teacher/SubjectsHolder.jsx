@@ -3,15 +3,15 @@ import { useContext, useState } from 'react';
 import { Container, Button, Modal, Form } from 'react-bootstrap';
 // Context
 import { ContextVariable } from '../../context/context-config';
+// React router DOM
+import { Link } from 'react-router-dom';
 
 const SubjectsHolder = () => {
 	const {
-		logOut,
 		user,
 		userData,
 		userID,
 		addSubject,
-		setShow,
 		show,
 		handleClose,
 		handleShow,
@@ -68,15 +68,21 @@ const SubjectsHolder = () => {
 				{subjectData.map((item) => {
 					if (userID === item.owner) {
 						return (
-							<div key={item.subjectID} className="my-3">
-								<div className="p-3 border rounded">
-									<p>{item.subjectName}</p>
-									<div className="d-flex">
-										<p className="me-3">0 Student</p>
-										<p>0 Activities</p>
+							<Link
+								key={item.subjectID}
+								to={`/teacherspage/${item.subjectName}/${item.subjectID}`}
+								className="text-decoration-none"
+							>
+								<div className="my-3  text-dark">
+									<div className="p-3 border rounded">
+										<p>{item.subjectName}</p>
+										<div className="d-flex">
+											<p className="me-3">0 Student</p>
+											<p>0 Activities</p>
+										</div>
 									</div>
 								</div>
-							</div>
+							</Link>
 						);
 					}
 				})}
