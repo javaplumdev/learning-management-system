@@ -41,26 +41,23 @@ export const ContextFunction = ({ children }) => {
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
-	const signUp = (email, password, userType) => {
-		setUserDetails({
+	const userAuth = firebaseAuth.currentUser.uid;
+
+	const signUp = async (email, password, userType, uuid) => {
+		// setUserDetails({
+		// 	email: email,
+		// 	password: password,
+		// 	userType: userType,
+		// });
+
+		await setDoc(doc(db, 'users', userAuth), {
+			id: userAuth,
 			email: email,
 			password: password,
 			userType: userType,
 		});
 
 		return createUserWithEmailAndPassword(firebaseAuth, email, password);
-	};
-
-	const signIn = (email, password) => {
-		setIsLoggedIn(true);
-
-		return signInWithEmailAndPassword(firebaseAuth, email, password);
-	};
-
-	const logOut = () => {
-		setIsLoggedIn(false);
-
-		return signOut(firebaseAuth);
 	};
 
 	useEffect(() => {
@@ -92,6 +89,18 @@ export const ContextFunction = ({ children }) => {
 				userType: userDetails.userType,
 			});
 		}
+	};
+
+	const signIn = (email, password) => {
+		setIsLoggedIn(true);
+
+		return signInWithEmailAndPassword(firebaseAuth, email, password);
+	};
+
+	const logOut = () => {
+		setIsLoggedIn(false);
+
+		return signOut(firebaseAuth);
 	};
 
 	const usersCollectionRef = collection(db, 'users');

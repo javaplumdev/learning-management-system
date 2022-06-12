@@ -7,15 +7,17 @@ import { ButtonGroup, ToggleButton } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 // Context
 import { ContextVariable } from '../context/context-config';
+// UUID
+import { v4 as uuidv4 } from 'uuid';
 
 const Signup = () => {
 	const { signUp } = useContext(ContextVariable);
-	const [radioValue, setRadioValue] = useState('1');
+	const [radioValue, setRadioValue] = useState('');
 	const navigate = useNavigate();
 
 	const radios = [
-		{ name: 'Student', value: '1' },
-		{ name: 'Teacher', value: '2' },
+		{ name: 'Teacher', value: '1' },
+		{ name: 'Student', value: '2' },
 	];
 
 	const [email, setEmail] = useState('');
@@ -23,15 +25,22 @@ const Signup = () => {
 	const [studentType, setStudentType] = useState(radioValue);
 	const [error, setError] = useState('');
 
+	const uuid = uuidv4();
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			await signUp(email, password, studentType);
+			await signUp(email, password, radioValue, uuid);
 			navigate('/');
 		} catch (e) {
 			setError(e.message);
 		}
 	};
+
+	function choose(e) {
+		setRadioValue(e.currentTarget.value);
+		console.log(radioValue);
+	}
 
 	return (
 		<div className="loginFormContainer p-3">
@@ -69,7 +78,7 @@ const Signup = () => {
 									name="radio"
 									value={radio.value}
 									checked={radioValue === radio.value}
-									onChange={(e) => setRadioValue(e.currentTarget.value)}
+									onChange={(e) => choose(e)}
 								>
 									{radio.name}
 								</ToggleButton>
