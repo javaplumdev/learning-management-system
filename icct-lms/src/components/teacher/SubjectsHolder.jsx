@@ -20,6 +20,9 @@ const SubjectsHolder = () => {
 	const [subjectName, setSubjectName] = useState('');
 	const [subjectCode, setSubjectCode] = useState('');
 
+	const subjectLength = [];
+	const [subjectLengthState, setSubjectLengthState] = useState([]);
+
 	return (
 		<>
 			<Container>
@@ -75,7 +78,19 @@ const SubjectsHolder = () => {
 										<p>{item.subjectName}</p>
 										<div className="d-flex">
 											<p className="me-3">0 Student</p>
-											<p className="me-3">0 Activities</p>
+											{activitiesData.map((act) => {
+												if (act.subjectID === item.subjectID) {
+													subjectLength.push(act);
+												}
+											})}
+											<p>
+												{
+													subjectLength.filter(
+														(sub) => sub.subjectID === item.subjectID
+													).length
+												}{' '}
+												Activities
+											</p>
 										</div>
 									</div>
 								</div>

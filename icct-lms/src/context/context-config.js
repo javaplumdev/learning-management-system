@@ -159,6 +159,8 @@ export const ContextFunction = ({ children }) => {
 			quizDescription: quizDescription,
 			quiz: [],
 		});
+
+		await updateDoc();
 	};
 
 	const [question, setQuestion] = useState('');
