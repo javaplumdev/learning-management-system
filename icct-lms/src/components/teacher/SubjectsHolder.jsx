@@ -21,7 +21,6 @@ const SubjectsHolder = () => {
 	const [subjectCode, setSubjectCode] = useState('');
 
 	const subjectLength = [];
-	const [subjectLengthState, setSubjectLengthState] = useState([]);
 
 	return (
 		<>

@@ -9,6 +9,8 @@ import TeacherHomePage from './components/teacher/TeacherHomePage';
 import StudentHomePage from './components/student/StudentHomePage';
 import TeacherSubjectPage from './components/teacher/TeacherSubjectPage';
 import CreateQuiz from './components/teacher/CreateQuiz';
+// Student
+import StudentProfile from './components/student/StudentProfile';
 // Router DOM
 import { Routes, Route } from 'react-router-dom';
 // Context
@@ -39,6 +41,9 @@ function App() {
 
 					<Route path="/createquiz/:subjectName/:id" element={<CreateQuiz />} />
 
+					{/* Student */}
+					{/* StudentProfile */}
+					<Route path="/studentprofile" element={<StudentProfile />} />
 					<Route path="/signup" element={<Signup />} />
 				</Routes>
 			</div>

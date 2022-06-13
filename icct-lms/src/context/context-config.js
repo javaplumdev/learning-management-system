@@ -41,20 +41,18 @@ export const ContextFunction = ({ children }) => {
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
-	const userAuth = firebaseAuth.currentUser.uid;
-
-	const signUp = async (email, password, userType, uuid) => {
-		// setUserDetails({
-		// 	email: email,
-		// 	password: password,
-		// 	userType: userType,
-		// });
-
-		await setDoc(doc(db, 'users', userAuth), {
-			id: userAuth,
-			email: email,
-			password: password,
-			userType: userType,
+	const signUp = async (email, password, userType) => {
+		onAuthStateChanged(firebaseAuth, (currentUser) => {
+			try {
+				setDoc(doc(db, 'users', currentUser.uid), {
+					id: currentUser.uid,
+					email: email,
+					password: password,
+					userType: userType,
+				});
+			} catch (e) {
+				console.warn(e.message);
+			}
 		});
 
 		return createUserWithEmailAndPassword(firebaseAuth, email, password);
@@ -66,7 +64,7 @@ export const ContextFunction = ({ children }) => {
 				return true;
 			} else {
 				setUser(currentUser);
-				connectUID(currentUser.uid, currentUser.email);
+				// connectUID(currentUser.uid, currentUser.email);
 				setUserID(currentUser.uid);
 			}
 		});
@@ -76,20 +74,20 @@ export const ContextFunction = ({ children }) => {
 		};
 	}, []);
 
-	const connectUID = async (uid, email) => {
-		if (
-			userDetails.password === undefined &&
-			userDetails.userType === undefined
-		) {
-		} else {
-			await setDoc(doc(db, 'users', uid), {
-				id: uid,
-				email: email,
-				password: userDetails.password,
-				userType: userDetails.userType,
-			});
-		}
-	};
+	// const connectUID = async (uid, email) => {
+	// 	if (
+	// 		userDetails.password === undefined &&
+	// 		userDetails.userType === undefined
+	// 	) {
+	// 	} else {
+	// 		await setDoc(doc(db, 'users', uid), {
+	// 			id: uid,
+	// 			email: email,
+	// 			password: userDetails.password,
+	// 			userType: userDetails.userType,
+	// 		});
+	// 	}
+	// };
 
 	const signIn = (email, password) => {
 		setIsLoggedIn(true);
@@ -103,16 +101,10 @@ export const ContextFunction = ({ children }) => {
 		return signOut(firebaseAuth);
 	};
 
-	const usersCollectionRef = collection(db, 'users');
-
 	useEffect(() => {
-		const getUsers = async () => {
-			const data = await getDocs(usersCollectionRef);
-
-			setUserData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-		};
-
-		getUsers();
+		onSnapshot(collection(db, 'users'), (snapShot) => {
+			setUserData(snapShot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+		});
 	}, []);
 
 	const subjectCollectionRef = collection(db, 'subjects');
@@ -128,17 +120,17 @@ export const ContextFunction = ({ children }) => {
 		handleClose();
 	};
 
-	useEffect(() => {
-		const getSubjectData = async () => {
-			const data = await getDocs(subjectCollectionRef);
+	// useEffect(() => {
+	// 	const getSubjectData = async () => {
+	// 		const data = await getDocs(subjectCollectionRef);
 
-			setSubjectData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-		};
+	// 		setSubjectData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+	// 	};
 
-		return () => {
-			getSubjectData();
-		};
-	}, []);
+	// 	return () => {
+	// 		getSubjectData();
+	// 	};
+	// }, []);
 
 	useEffect(() => {
 		onSnapshot(collection(db, 'subjects'), (snapShot) => {

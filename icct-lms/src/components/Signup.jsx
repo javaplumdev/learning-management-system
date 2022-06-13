@@ -39,7 +39,6 @@ const Signup = () => {
 
 	function choose(e) {
 		setRadioValue(e.currentTarget.value);
-		console.log(radioValue);
 	}
 
 	return (
