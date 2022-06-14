@@ -35,7 +35,7 @@ export const ContextFunction = ({ children }) => {
 	const [quizName, setQuizName] = useState('');
 	const [quizDescription, setQuizDescription] = useState('');
 	const [activitiesData, setActivitiesData] = useState([]);
-
+	const [myClasses, setMyClasses] = useState([]);
 	// For opening a modal
 	const [show, setShow] = useState(false);
 
@@ -171,12 +171,12 @@ export const ContextFunction = ({ children }) => {
 			if (code === item.subjectCode) {
 				updateDoc(doc(db, 'subjects', item.subjectID), {
 					studentsEnrolled: arrayUnion({
+						subjectEnrolled: item.subjectID,
+						subjectName: item.subjectName,
 						studentID: studentID,
 						studentName: studentName,
 					}),
 				});
-			} else {
-				console.warn('Wrong code');
 			}
 		});
 
@@ -217,6 +217,8 @@ export const ContextFunction = ({ children }) => {
 				correctAnswer,
 				activitiesData,
 				enrollSubject,
+				setMyClasses,
+				myClasses,
 			}}
 		>
 			{children}

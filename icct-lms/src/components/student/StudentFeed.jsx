@@ -1,9 +1,15 @@
+// React
+import React, { useContext, useState } from 'react';
 // Component
 import StudentSidebar from './StudentSidebar';
 // React bootstrap
 import { Container, Row, Col } from 'react-bootstrap';
+// Context
+import { ContextVariable } from '../../context/context-config';
 
 const StudentFeed = () => {
+	const { activitiesData } = useContext(ContextVariable);
+
 	return (
 		<div className="mt-5">
 			<Container>

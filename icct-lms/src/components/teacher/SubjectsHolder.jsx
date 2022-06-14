@@ -80,19 +80,35 @@ const SubjectsHolder = () => {
 									<div className="p-3 border rounded">
 										<p>{item.subjectName}</p>
 										<div className="d-flex">
-											<p className="me-3">0 Student</p>
+											<p className="me-3">
+												{item.studentsEnrolled.length >= 0 &&
+												item.studentsEnrolled.length <= 1
+													? `${item.studentsEnrolled.length} student`
+													: `${item.studentsEnrolled.length} students`}
+											</p>
+
 											{activitiesData.map((act) => {
 												if (act.subjectID === item.subjectID) {
 													subjectLength.push(act);
 												}
 											})}
 											<p>
-												{
-													subjectLength.filter(
-														(sub) => sub.subjectID === item.subjectID
-													).length
-												}{' '}
-												Activities
+												{subjectLength.filter(
+													(sub) => sub.subjectID === item.subjectID
+												).length >= 0 &&
+												subjectLength.filter(
+													(sub) => sub.subjectID === item.subjectID
+												).length <= 1
+													? `${
+															subjectLength.filter(
+																(sub) => sub.subjectID === item.subjectID
+															).length
+													  } activity`
+													: `${
+															subjectLength.filter(
+																(sub) => sub.subjectID === item.subjectID
+															).length
+													  } activities`}
 											</p>
 										</div>
 									</div>
