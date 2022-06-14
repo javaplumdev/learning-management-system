@@ -5,6 +5,8 @@ import { Container, Button, Modal, Form } from 'react-bootstrap';
 import { ContextVariable } from '../../context/context-config';
 // React router DOM
 import { Link } from 'react-router-dom';
+// UUID
+import { v4 as uuidv4 } from 'uuid';
 
 const SubjectsHolder = () => {
 	const {
@@ -21,6 +23,8 @@ const SubjectsHolder = () => {
 	const [subjectCode, setSubjectCode] = useState('');
 
 	const subjectLength = [];
+
+	const subjectID = uuidv4();
 
 	return (
 		<>
@@ -56,7 +60,7 @@ const SubjectsHolder = () => {
 							</Button>
 							<Button
 								variant="primary"
-								onClick={() => addSubject(subjectName, subjectCode)}
+								onClick={() => addSubject(subjectName, subjectCode, subjectID)}
 							>
 								Add subject
 							</Button>

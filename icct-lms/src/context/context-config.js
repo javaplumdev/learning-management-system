@@ -21,6 +21,7 @@ import {
 import { db } from '../firebase/firebase-config';
 // UUID
 import { v4 as uuidv4 } from 'uuid';
+import { async } from '@firebase/util';
 
 export const ContextVariable = createContext();
 
@@ -74,21 +75,6 @@ export const ContextFunction = ({ children }) => {
 		};
 	}, []);
 
-	// const connectUID = async (uid, email) => {
-	// 	if (
-	// 		userDetails.password === undefined &&
-	// 		userDetails.userType === undefined
-	// 	) {
-	// 	} else {
-	// 		await setDoc(doc(db, 'users', uid), {
-	// 			id: uid,
-	// 			email: email,
-	// 			password: userDetails.password,
-	// 			userType: userDetails.userType,
-	// 		});
-	// 	}
-	// };
-
 	const signIn = (email, password) => {
 		setIsLoggedIn(true);
 
@@ -109,9 +95,9 @@ export const ContextFunction = ({ children }) => {
 
 	const subjectCollectionRef = collection(db, 'subjects');
 
-	const addSubject = async (subjectName, subjectCode) => {
-		await addDoc(subjectCollectionRef, {
-			subjectID: uuidv4(),
+	const addSubject = async (subjectName, subjectCode, subjectID) => {
+		await setDoc(doc(db, 'subjects', subjectID), {
+			subjectID: subjectID,
 			owner: userID,
 			subjectName: subjectName,
 			subjectCode: subjectCode,
@@ -119,18 +105,6 @@ export const ContextFunction = ({ children }) => {
 
 		handleClose();
 	};
-
-	// useEffect(() => {
-	// 	const getSubjectData = async () => {
-	// 		const data = await getDocs(subjectCollectionRef);
-
-	// 		setSubjectData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-	// 	};
-
-	// 	return () => {
-	// 		getSubjectData();
-	// 	};
-	// }, []);
 
 	useEffect(() => {
 		onSnapshot(collection(db, 'subjects'), (snapShot) => {
@@ -192,6 +166,23 @@ export const ContextFunction = ({ children }) => {
 		setCorrectAnswer('');
 	};
 
+	const enrollSubject = (code, studentID, studentName) => {
+		subjectData.map((item) => {
+			if (code === item.subjectCode) {
+				updateDoc(doc(db, 'subjects', item.subjectID), {
+					studentsEnrolled: arrayUnion({
+						studentID: studentID,
+						studentName: studentName,
+					}),
+				});
+			} else {
+				console.warn('Wrong code');
+			}
+		});
+
+		handleClose();
+	};
+
 	return (
 		<ContextVariable.Provider
 			value={{
@@ -225,6 +216,7 @@ export const ContextFunction = ({ children }) => {
 				dState,
 				correctAnswer,
 				activitiesData,
+				enrollSubject,
 			}}
 		>
 			{children}
