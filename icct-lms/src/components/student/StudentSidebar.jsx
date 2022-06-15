@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { ContextVariable } from '../../context/context-config';
+import { Link } from 'react-router-dom';
 
 const StudentSidebar = () => {
 	const {
@@ -11,11 +12,7 @@ const StudentSidebar = () => {
 		userData,
 		userID,
 		subjectData,
-		myClasses,
-		setMyClasses,
 	} = useContext(ContextVariable);
-
-	const studentFeed = [];
 
 	const [subjectCode, setSubjectCode] = useState('');
 
@@ -24,12 +21,11 @@ const StudentSidebar = () => {
 	const studentID = studentData.map((item) => item.id)[0];
 
 	const sample = subjectData.map((item) => item.studentsEnrolled);
-
+	const studentFeed = [];
 	sample.forEach((item) => {
 		item.map((sub) => {
 			if (sub.studentID === userID) {
 				studentFeed.push(sub);
-				console.log(studentFeed);
 			}
 		});
 	});
@@ -72,9 +68,15 @@ const StudentSidebar = () => {
 				<p>My classes</p>
 				{studentFeed.map((item) => {
 					return (
-						<div key={item.subjectEnrolled}>
-							<b>{item.subjectName}</b>
-						</div>
+						<Link
+							key={item.subjectEnrolled}
+							to={`/subjectpage/${item.subjectEnrolled}`}
+							className=" text-decoration-none"
+						>
+							<div className="text-dark myClasses p-2">
+								<b>{item.subjectName}</b>
+							</div>
+						</Link>
 					);
 				})}
 			</div>

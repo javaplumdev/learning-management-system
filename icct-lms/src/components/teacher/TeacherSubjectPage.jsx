@@ -75,7 +75,11 @@ const TeacherSubjectPage = () => {
 										<Link
 											to={`/createquiz/${item.subjectName}/${item.subjectID}`}
 										>
-											<Button onClick={() => createActivities(id, activityID)}>
+											<Button
+												onClick={() =>
+													createActivities(id, activityID, item.subjectName)
+												}
+											>
 												Create activities
 											</Button>
 										</Link>

@@ -124,9 +124,10 @@ export const ContextFunction = ({ children }) => {
 
 	const [activityID, setActivityID] = useState('');
 
-	const createActivities = async (id, activityID) => {
+	const createActivities = async (id, activityID, subjectName) => {
 		setActivityID(activityID);
 		await setDoc(doc(db, 'activities', activityID), {
+			subjectName: subjectName,
 			quizID: activityID,
 			subjectID: id,
 			ownerID: userID,

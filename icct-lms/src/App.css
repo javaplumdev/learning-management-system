@@ -10,3 +10,7 @@
 	align-items: center;
 	justify-content: center;
 }
+
+.myClasses:hover {
+	background-color: rgb(238, 238, 238);
+}

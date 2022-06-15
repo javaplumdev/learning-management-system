@@ -11,6 +11,8 @@ import TeacherSubjectPage from './components/teacher/TeacherSubjectPage';
 import CreateQuiz from './components/teacher/CreateQuiz';
 // Student
 import StudentProfile from './components/student/StudentProfile';
+import SubjectPage from './components/student/SubjectPage';
+import QuizPage from './components/student/QuizPage';
 // Router DOM
 import { Routes, Route } from 'react-router-dom';
 // Context
@@ -44,6 +46,8 @@ function App() {
 					{/* Student */}
 					{/* StudentProfile */}
 					<Route path="/studentprofile" element={<StudentProfile />} />
+					<Route path="/subjectpage/:id" element={<SubjectPage />} />
+					<Route path="/quizpage/:id" element={<QuizPage />} />
 					<Route path="/signup" element={<Signup />} />
 				</Routes>
 			</div>
