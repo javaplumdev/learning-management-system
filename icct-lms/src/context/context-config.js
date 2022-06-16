@@ -19,9 +19,6 @@ import {
 	updateDoc,
 } from 'firebase/firestore';
 import { db } from '../firebase/firebase-config';
-// UUID
-import { v4 as uuidv4 } from 'uuid';
-import { async } from '@firebase/util';
 
 export const ContextVariable = createContext();
 
@@ -190,34 +187,9 @@ export const ContextFunction = ({ children }) => {
 		handleClose();
 	};
 
-	const submitQuestion = (id, userID, correctAnswer, userEmail) => {
-		console.log(currentQuiz);
-		console.log(activityData.length);
-
-		const quizLength = activityData.length - 1;
-
-		if (currentQuiz < activityData.length) {
-			setCurrentQuiz((prevState) => prevState + 1);
-			if (answer === correctAnswer) {
-				setScore((prevState) => prevState + 1);
-			}
-		}
-
-		if (currentQuiz === quizLength) {
-			updateDoc(doc(db, 'activities', id), {
-				score: arrayUnion({
-					studentID: userID,
-					studentName: userEmail,
-					score: score,
-				}),
-			});
-		}
-	};
-
 	return (
 		<ContextVariable.Provider
 			value={{
-				submitQuestion,
 				logOut,
 				signUp,
 				signIn,

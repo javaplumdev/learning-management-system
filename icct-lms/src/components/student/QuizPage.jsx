@@ -3,6 +3,9 @@ import { ContextVariable } from '../../context/context-config';
 import { useParams } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
 import StudentNavbarComponent from './StudentNavbarComponent';
+import { updateDoc, arrayUnion, doc } from 'firebase/firestore';
+import { db } from '../../firebase/firebase-config';
+import { Link } from 'react-router-dom';
 
 const QuizPage = () => {
 	const {
@@ -13,9 +16,10 @@ const QuizPage = () => {
 		score,
 		answer,
 		setAnswer,
-		submitQuestion,
+		setCurrentQuiz,
 		userID,
 		user,
+		setScore,
 	} = useContext(ContextVariable);
 	const { id } = useParams();
 
@@ -28,7 +32,7 @@ const QuizPage = () => {
 	}, [activityToTake]);
 
 	const question = activityData[currentQuiz]?.question;
-
+	const quizLength = activityData.length - 1;
 	const a = activityData[currentQuiz]?.a;
 	const b = activityData[currentQuiz]?.b;
 	const c = activityData[currentQuiz]?.c;
@@ -37,6 +41,26 @@ const QuizPage = () => {
 
 	const handleChange = (e) => {
 		setAnswer(e.target.value);
+	};
+
+	const submitQuestion = (id, userID, correctAnswer, userEmail) => {
+		if (currentQuiz < activityData.length) {
+			setCurrentQuiz((prevState) => prevState + 1);
+			if (answer === correctAnswer) {
+				setScore((prevState) => prevState + 1);
+			}
+		}
+
+		if (currentQuiz === activityData.length - 1) {
+			updateDoc(doc(db, 'activities', id), {
+				score: arrayUnion({
+					studentID: userID,
+					studentName: userEmail,
+					score: score + 1,
+					isTaken: true,
+				}),
+			});
+		}
 	};
 
 	return (
@@ -55,7 +79,9 @@ const QuizPage = () => {
 							<h3>
 								YOUR GRADE IS {score} / {activityData.length}
 							</h3>
-							<Button>Go back</Button>
+							<Link to="/StudentHomePage">
+								<Button>Go back</Button>
+							</Link>
 						</div>
 					) : (
 						<>
