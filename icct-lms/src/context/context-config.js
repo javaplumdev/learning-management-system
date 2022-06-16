@@ -36,6 +36,11 @@ export const ContextFunction = ({ children }) => {
 	const [quizDescription, setQuizDescription] = useState('');
 	const [activitiesData, setActivitiesData] = useState([]);
 	const [myClasses, setMyClasses] = useState([]);
+
+	const [activityData, setActivityData] = useState([]);
+	const [currentQuiz, setCurrentQuiz] = useState(0);
+	const [score, setScore] = useState(0);
+	const [answer, setAnswer] = useState('');
 	// For opening a modal
 	const [show, setShow] = useState(false);
 
@@ -101,6 +106,7 @@ export const ContextFunction = ({ children }) => {
 			owner: userID,
 			subjectName: subjectName,
 			subjectCode: subjectCode,
+			studentsEnrolled: [],
 		});
 
 		handleClose();
@@ -134,6 +140,7 @@ export const ContextFunction = ({ children }) => {
 			quizName: quizName,
 			quizDescription: quizDescription,
 			quiz: [],
+			score: [],
 		});
 
 		await updateDoc();
@@ -147,8 +154,8 @@ export const ContextFunction = ({ children }) => {
 	const [correctAnswer, setCorrectAnswer] = useState('');
 
 	const addActivities = async () => {
-		const activityRef = doc(db, 'activities', activityID);
-		await updateDoc(activityRef, {
+		const activityReference = doc(db, 'activities', activityID);
+		await updateDoc(activityReference, {
 			quiz: arrayUnion({
 				question: question,
 				a: aState,
@@ -158,7 +165,6 @@ export const ContextFunction = ({ children }) => {
 				correctAnswer: correctAnswer,
 			}),
 		});
-
 		setQuestion('');
 		setAState('');
 		setBState('');
@@ -184,9 +190,31 @@ export const ContextFunction = ({ children }) => {
 		handleClose();
 	};
 
+	const submitQuestion = (id, score, userID, correctAnswer, userEmail) => {
+		console.log(id);
+
+		if (currentQuiz < activityData.length) {
+			setCurrentQuiz((prevState) => prevState + 1);
+			if (answer === correctAnswer) {
+				setScore((prevState) => prevState + 1);
+			}
+		} else if (currentQuiz === activityData.length) {
+			updateDoc(doc(db, 'activities', id), {
+				score: arrayUnion({
+					studentID: userID,
+					studentName: userEmail,
+					score: score,
+				}),
+			});
+
+			console.log('Sample');
+		}
+	};
+
 	return (
 		<ContextVariable.Provider
 			value={{
+				submitQuestion,
 				logOut,
 				signUp,
 				signIn,
@@ -220,6 +248,14 @@ export const ContextFunction = ({ children }) => {
 				enrollSubject,
 				setMyClasses,
 				myClasses,
+				activityData,
+				setActivityData,
+				currentQuiz,
+				setCurrentQuiz,
+				score,
+				setScore,
+				answer,
+				setAnswer,
 			}}
 		>
 			{children}

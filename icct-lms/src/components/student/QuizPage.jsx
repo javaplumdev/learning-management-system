@@ -5,12 +5,19 @@ import { Container, Button } from 'react-bootstrap';
 import StudentNavbarComponent from './StudentNavbarComponent';
 
 const QuizPage = () => {
-	const { activitiesData } = useContext(ContextVariable);
+	const {
+		activitiesData,
+		activityData,
+		setActivityData,
+		currentQuiz,
+		score,
+		answer,
+		setAnswer,
+		submitQuestion,
+		userID,
+		user,
+	} = useContext(ContextVariable);
 	const { id } = useParams();
-	const [activityData, setActivityData] = useState([]);
-	const [currentQuiz, setCurrentQuiz] = useState(0);
-	const [showScore, setShowScore] = useState('');
-	const [score, setScore] = useState(0);
 
 	const activityToTake = activitiesData.filter((item) => item.quizID === id);
 
@@ -21,18 +28,15 @@ const QuizPage = () => {
 	}, [activityToTake]);
 
 	const question = activityData[currentQuiz]?.question;
+
 	const a = activityData[currentQuiz]?.a;
 	const b = activityData[currentQuiz]?.b;
 	const c = activityData[currentQuiz]?.c;
 	const d = activityData[currentQuiz]?.d;
 	const correctAnswer = activityData[currentQuiz]?.correctAnswer;
 
-	const submitQuestion = () => {
-		if (currentQuiz < activityData.length) {
-			setCurrentQuiz((prevState) => prevState + 1);
-		} else {
-			setShowScore('HATDOG');
-		}
+	const handleChange = (e) => {
+		setAnswer(e.target.value);
 	};
 
 	return (
@@ -63,6 +67,9 @@ const QuizPage = () => {
 										type="radio"
 										name="flexRadioDefault"
 										id="flexRadioDefault1"
+										value="a"
+										checked={answer === 'a'}
+										onChange={handleChange}
 									/>
 									<label
 										className="form-check-label"
@@ -77,6 +84,9 @@ const QuizPage = () => {
 										type="radio"
 										name="flexRadioDefault"
 										id="flexRadioDefault2"
+										value="b"
+										checked={answer === 'b'}
+										onChange={handleChange}
 									/>
 									<label
 										className="form-check-label"
@@ -91,6 +101,9 @@ const QuizPage = () => {
 										type="radio"
 										name="flexRadioDefault"
 										id="flexRadioDefault3"
+										value="c"
+										checked={answer === 'c'}
+										onChange={handleChange}
 									/>
 									<label
 										className="form-check-label"
@@ -105,6 +118,9 @@ const QuizPage = () => {
 										type="radio"
 										name="flexRadioDefault"
 										id="flexRadioDefault4"
+										value="d"
+										checked={answer === 'd'}
+										onChange={handleChange}
 									/>
 									<label
 										className="form-check-label"
@@ -114,7 +130,12 @@ const QuizPage = () => {
 									</label>
 								</div>
 							</div>
-							<Button className="w-100 mb-3" onClick={() => submitQuestion()}>
+							<Button
+								className="w-100 mb-3"
+								onClick={() =>
+									submitQuestion(id, score, userID, correctAnswer, user.email)
+								}
+							>
 								Submit
 							</Button>
 						</>

@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 // Components
 import NavbarComponent from './NavbarComponent';
 // React bootsrtap
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, Dropdown } from 'react-bootstrap';
 // React DOM
 import { useParams, Link } from 'react-router-dom';
 import { ContextVariable } from '../../context/context-config';
@@ -98,12 +98,31 @@ const CreateQuiz = () => {
 
 							<Form.Group className="mb-3">
 								<Form.Label>Correct Answer</Form.Label>
-								<Form.Control
+								{/* <Form.Control
 									type="text"
 									placeholder="Correct Answer"
 									value={correctAnswer}
 									onChange={(e) => setCorrectAnswer(e.target.value)}
-								/>
+								/> */}
+								<Dropdown className="mt-3">
+									<Dropdown.Toggle>
+										Pick a letter of correct answer: {correctAnswer}
+									</Dropdown.Toggle>
+									<Dropdown.Menu>
+										<Dropdown.Item onClick={() => setCorrectAnswer('a')}>
+											A
+										</Dropdown.Item>
+										<Dropdown.Item onClick={() => setCorrectAnswer('b')}>
+											B
+										</Dropdown.Item>
+										<Dropdown.Item onClick={() => setCorrectAnswer('c')}>
+											C
+										</Dropdown.Item>
+										<Dropdown.Item onClick={() => setCorrectAnswer('d')}>
+											D
+										</Dropdown.Item>
+									</Dropdown.Menu>
+								</Dropdown>
 								<Form.Text className="mt-1" muted>
 									The correct answer must be the LETTER.
 								</Form.Text>
