@@ -133,7 +133,7 @@ const QuizPage = () => {
 							<Button
 								className="w-100 mb-3"
 								onClick={() =>
-									submitQuestion(id, score, userID, correctAnswer, user.email)
+									submitQuestion(id, userID, correctAnswer, user.email)
 								}
 							>
 								Submit

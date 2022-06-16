@@ -190,15 +190,20 @@ export const ContextFunction = ({ children }) => {
 		handleClose();
 	};
 
-	const submitQuestion = (id, score, userID, correctAnswer, userEmail) => {
-		console.log(id);
+	const submitQuestion = (id, userID, correctAnswer, userEmail) => {
+		console.log(currentQuiz);
+		console.log(activityData.length);
+
+		const quizLength = activityData.length - 1;
 
 		if (currentQuiz < activityData.length) {
 			setCurrentQuiz((prevState) => prevState + 1);
 			if (answer === correctAnswer) {
 				setScore((prevState) => prevState + 1);
 			}
-		} else if (currentQuiz === activityData.length) {
+		}
+
+		if (currentQuiz === quizLength) {
 			updateDoc(doc(db, 'activities', id), {
 				score: arrayUnion({
 					studentID: userID,
@@ -206,8 +211,6 @@ export const ContextFunction = ({ children }) => {
 					score: score,
 				}),
 			});
-
-			console.log('Sample');
 		}
 	};
 
