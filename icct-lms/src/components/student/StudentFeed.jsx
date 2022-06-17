@@ -1,5 +1,5 @@
 // React
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 // Component
 import StudentSidebar from './StudentSidebar';
 // React bootstrap
@@ -10,7 +10,15 @@ import { ContextVariable } from '../../context/context-config';
 import { Link } from 'react-router-dom';
 
 const StudentFeed = () => {
-	const { activitiesData, subjectData, userID } = useContext(ContextVariable);
+	const {
+		activitiesData,
+		subjectData,
+		userID,
+		filteredActivities,
+		setFilteredActivities,
+		activityIDToRemove,
+		setActivityIDToRemove,
+	} = useContext(ContextVariable);
 
 	const sample = subjectData.map((item) => item.studentsEnrolled);
 
@@ -26,12 +34,18 @@ const StudentFeed = () => {
 	});
 
 	studentFeed.map((item) => {
-		activitiesData.map((act) => {
+		filteredActivities.map((act) => {
 			if (item.subjectEnrolled === act.subjectID) {
 				studentActivities.push(act);
 			}
 		});
 	});
+
+	useEffect(() => {
+		setFilteredActivities(
+			activitiesData.filter((item) => item.quizID !== activityIDToRemove)
+		);
+	}, []);
 
 	return (
 		<div className="mt-5">
@@ -43,7 +57,7 @@ const StudentFeed = () => {
 					<Col md="9">
 						<div className=" rounded ">
 							<p>Activities</p>
-							{studentActivities.map((item) => {
+							{filteredActivities.map((item) => {
 								return (
 									<div key={item.id} className="border my-3 p-3">
 										<div className="d-flex justify-content-between align-items-center">

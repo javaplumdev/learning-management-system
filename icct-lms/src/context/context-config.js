@@ -33,6 +33,8 @@ export const ContextFunction = ({ children }) => {
 	const [quizDescription, setQuizDescription] = useState('');
 	const [activitiesData, setActivitiesData] = useState([]);
 	const [myClasses, setMyClasses] = useState([]);
+	const [filteredActivities, setFilteredActivities] = useState([]);
+	const [activityIDToRemove, setActivityIDToRemove] = useState('');
 
 	const [activityData, setActivityData] = useState([]);
 	const [currentQuiz, setCurrentQuiz] = useState(0);
@@ -190,6 +192,10 @@ export const ContextFunction = ({ children }) => {
 	return (
 		<ContextVariable.Provider
 			value={{
+				activityIDToRemove,
+				setActivityIDToRemove,
+				setFilteredActivities,
+				filteredActivities,
 				logOut,
 				signUp,
 				signIn,

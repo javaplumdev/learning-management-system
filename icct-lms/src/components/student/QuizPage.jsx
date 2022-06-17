@@ -20,9 +20,11 @@ const QuizPage = () => {
 		userID,
 		user,
 		setScore,
+		setActivityIDToRemove,
 	} = useContext(ContextVariable);
 	const { id } = useParams();
-
+	setActivityIDToRemove(id);
+	const [studentScores, setStudentScores] = useState([]);
 	const activityToTake = activitiesData.filter((item) => item.quizID === id);
 
 	useEffect(() => {
