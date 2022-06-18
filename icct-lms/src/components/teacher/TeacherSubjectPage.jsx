@@ -3,7 +3,15 @@ import { useContext, useState } from 'react';
 // Components
 import NavbarComponent from './NavbarComponent';
 // Bootsrtap
-import { Container, Button, Row, Col, Modal, Form } from 'react-bootstrap';
+import {
+	Container,
+	Button,
+	Row,
+	Col,
+	Modal,
+	Form,
+	FloatingLabel,
+} from 'react-bootstrap';
 // React DOM
 import { useParams, Link } from 'react-router-dom';
 import { ContextVariable } from '../../context/context-config';
@@ -16,6 +24,7 @@ const TeacherSubjectPage = () => {
 	const { subjectData } = useContext(ContextVariable);
 
 	const {
+		setShow,
 		show,
 		handleClose,
 		handleShow,
@@ -23,10 +32,17 @@ const TeacherSubjectPage = () => {
 		setQuizDescription,
 		activitiesData,
 		createActivities,
+		userID,
+		user,
+		postContent,
+		postShow,
+		setPostShow,
 	} = useContext(ContextVariable);
 
+	const [postUserContent, setPostUserContent] = useState('');
 	const subject = subjectData.filter((sub) => sub.subjectID === id);
 	const activityID = uuidv4();
+	const postID = uuidv4();
 
 	const activities = activitiesData.filter((act) => act.subjectID === id);
 
@@ -42,15 +58,57 @@ const TeacherSubjectPage = () => {
 						>
 							<p className="display-6 fw-bold">{item.subjectName}</p>
 							<div>
-								<Button variant="outline-primary" className="m-2">
+								<Button
+									variant="outline-primary"
+									className="m-2"
+									onClick={() => setPostShow(true)}
+								>
 									Post
 								</Button>
+
+								<Modal show={postShow} onHide={() => setPostShow(false)}>
+									<Modal.Header closeButton>
+										<Modal.Title>Post</Modal.Title>
+									</Modal.Header>
+									<Modal.Body>
+										<FloatingLabel
+											controlId="floatingTextarea"
+											label="Comments"
+											className="mb-3"
+										>
+											<Form.Control
+												style={{ resize: 'none', height: '200px' }}
+												as="textarea"
+												placeholder="Leave a comment here"
+												onChange={(e) => setPostUserContent(e.target.value)}
+											/>
+										</FloatingLabel>
+									</Modal.Body>
+									<Modal.Footer>
+										<Button variant="secondary" onClick={handleClose}>
+											Close
+										</Button>
+										<Button
+											onClick={() =>
+												postContent(
+													postID,
+													postUserContent,
+													user.email,
+													userID,
+													id
+												)
+											}
+										>
+											Post
+										</Button>
+									</Modal.Footer>
+								</Modal>
 
 								<Button onClick={handleShow}>Add activities</Button>
 								{/* Modal */}
 								<Modal show={show} onHide={handleClose}>
 									<Modal.Header closeButton>
-										<Modal.Title>Modal heading</Modal.Title>
+										<Modal.Title>Add activities</Modal.Title>
 									</Modal.Header>
 									<Modal.Body>
 										<Form.Group className="mb-3">
@@ -95,8 +153,20 @@ const TeacherSubjectPage = () => {
 						<Col md="3" className="mt-3">
 							<div className="bg-primary rounded p-3 text-white">
 								<p>Activities</p>
-								<p>Students</p>
-								<p>Grades</p>
+
+								<Link
+									to={`/studentrecord/${id}`}
+									className="text-white text-decoration-none "
+								>
+									Students
+								</Link>
+								<br></br>
+								<Link
+									to={`/announcementpage/${id}`}
+									className="text-white text-decoration-none"
+								>
+									Announcement
+								</Link>
 							</div>
 						</Col>
 						<Col md="9" className="mt-3">

@@ -17,6 +17,7 @@ import {
 	onSnapshot,
 	arrayUnion,
 	updateDoc,
+	serverTimestamp,
 } from 'firebase/firestore';
 import { db } from '../firebase/firebase-config';
 
@@ -35,6 +36,7 @@ export const ContextFunction = ({ children }) => {
 	const [myClasses, setMyClasses] = useState([]);
 	const [filteredActivities, setFilteredActivities] = useState([]);
 	const [activityIDToRemove, setActivityIDToRemove] = useState('');
+	const [postAnnouncement, setPostAnnouncement] = useState([]);
 
 	const [activityData, setActivityData] = useState([]);
 	const [currentQuiz, setCurrentQuiz] = useState(0);
@@ -97,8 +99,6 @@ export const ContextFunction = ({ children }) => {
 		});
 	}, []);
 
-	const subjectCollectionRef = collection(db, 'subjects');
-
 	const addSubject = async (subjectName, subjectCode, subjectID) => {
 		await setDoc(doc(db, 'subjects', subjectID), {
 			subjectID: subjectID,
@@ -127,6 +127,14 @@ export const ContextFunction = ({ children }) => {
 		});
 	}, []);
 
+	useEffect(() => {
+		onSnapshot(collection(db, 'post'), (snapShot) => {
+			setPostAnnouncement(
+				snapShot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+			);
+		});
+	}, []);
+
 	const [activityID, setActivityID] = useState('');
 
 	const createActivities = async (id, activityID, subjectName) => {
@@ -143,6 +151,27 @@ export const ContextFunction = ({ children }) => {
 		});
 
 		await updateDoc();
+	};
+
+	const [postShow, setPostShow] = useState(false);
+
+	const postContent = async (
+		postID,
+		postUserContent,
+		email,
+		userID,
+		subjectID
+	) => {
+		await setDoc(doc(db, 'post', postID), {
+			content: postUserContent,
+			name: email,
+			userID: userID,
+			postID: postID,
+			subjectID: subjectID,
+			timestamp: serverTimestamp(),
+		});
+
+		setPostShow(false);
 	};
 
 	const [question, setQuestion] = useState('');
@@ -192,6 +221,10 @@ export const ContextFunction = ({ children }) => {
 	return (
 		<ContextVariable.Provider
 			value={{
+				postAnnouncement,
+				postShow,
+				setPostShow,
+				postContent,
 				activityIDToRemove,
 				setActivityIDToRemove,
 				setFilteredActivities,

@@ -21,6 +21,7 @@ const QuizPage = () => {
 		user,
 		setScore,
 		setActivityIDToRemove,
+		setFilteredActivities,
 	} = useContext(ContextVariable);
 	const { id } = useParams();
 	setActivityIDToRemove(id);
@@ -60,6 +61,7 @@ const QuizPage = () => {
 					studentName: userEmail,
 					score: score + 1,
 					isTaken: true,
+					actID: id,
 				}),
 			});
 		}

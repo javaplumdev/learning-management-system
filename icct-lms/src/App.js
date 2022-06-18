@@ -9,6 +9,8 @@ import TeacherHomePage from './components/teacher/TeacherHomePage';
 import StudentHomePage from './components/student/StudentHomePage';
 import TeacherSubjectPage from './components/teacher/TeacherSubjectPage';
 import CreateQuiz from './components/teacher/CreateQuiz';
+import AnnouncementPage from './components/teacher/AnnouncementPage';
+import StudentRecord from './components/teacher/StudentRecord';
 // Student
 import StudentProfile from './components/student/StudentProfile';
 import SubjectPage from './components/student/SubjectPage';
@@ -41,7 +43,9 @@ function App() {
 						element={<TeacherSubjectPage />}
 					/>
 
+					<Route path="/announcementpage/:id" element={<AnnouncementPage />} />
 					<Route path="/createquiz/:subjectName/:id" element={<CreateQuiz />} />
+					<Route path="/studentrecord/:id" element={<StudentRecord />} />
 
 					{/* Student */}
 					{/* StudentProfile */}
