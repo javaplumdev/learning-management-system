@@ -3,9 +3,10 @@ import { ContextVariable } from '../../context/context-config';
 import { useParams } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
 import StudentNavbarComponent from './StudentNavbarComponent';
-import { updateDoc, arrayUnion, doc } from 'firebase/firestore';
+import { updateDoc, arrayUnion, doc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebase-config';
 import { Link } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 const QuizPage = () => {
 	const {
@@ -19,14 +20,18 @@ const QuizPage = () => {
 		setCurrentQuiz,
 		userID,
 		user,
+		subjectData,
 		setScore,
-		setActivityIDToRemove,
-		setFilteredActivities,
+		subjectID,
 	} = useContext(ContextVariable);
 	const { id } = useParams();
-	setActivityIDToRemove(id);
-	const [studentScores, setStudentScores] = useState([]);
+
 	const activityToTake = activitiesData.filter((item) => item.quizID === id);
+	const subjectIDFinal = subjectData.filter(
+		(item) => item.subjectID === subjectID
+	);
+
+	const subjectIDToTake = subjectIDFinal.map((item) => item.subjectID)[0];
 
 	useEffect(() => {
 		activityToTake.map((item) => {
@@ -55,14 +60,12 @@ const QuizPage = () => {
 		}
 
 		if (currentQuiz === activityData.length - 1) {
-			updateDoc(doc(db, 'activities', id), {
-				score: arrayUnion({
-					studentID: userID,
-					studentName: userEmail,
-					score: score + 1,
-					isTaken: true,
-					actID: id,
-				}),
+			setDoc(doc(db, 'score', id), {
+				actID: id,
+				studentID: userID,
+				studentName: userEmail,
+				score: score + 1,
+				subjectID: subjectIDToTake,
 			});
 		}
 	};

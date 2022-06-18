@@ -10,28 +10,41 @@ import { ContextVariable } from '../../context/context-config';
 import { Link } from 'react-router-dom';
 
 const StudentFeed = () => {
-	const { activitiesData, activityIDToRemove, userID } =
+	const { activitiesData, userID, subjectData, setSubjectID, subjectID } =
 		useContext(ContextVariable);
 
 	const [filteredActivity, setFilteredActivity] = useState([]);
 
-	useEffect(() => {
-		setFilteredActivity(
-			activitiesData.map((item) => {
-				item.score.map((score) => {
-					if (score.isTaken === true) {
-						const findIndex = activitiesData.findIndex((object) => {
-							return object.quizID === score.actID;
-						});
+	const sample = subjectData.map((item) => item.studentsEnrolled);
+	const studentFeed = [];
+	let newArray = [];
+	sample.forEach((item) => {
+		item.map((sub) => {
+			if (sub.studentID === userID) {
+				studentFeed.push(sub);
+			}
+		});
+	});
 
-						activitiesData.splice(findIndex, 1); // 2nd parameter means remove one item only
-					}
+	studentFeed.map((sub) => {
+		activitiesData.map((act) => {
+			if (sub.subjectEnrolled === act.subjectID) {
+				newArray.push(act);
+			}
+		});
+	});
+
+	newArray.map((item) => {
+		item.score.map((score) => {
+			if (score.studentID === userID && score.isTaken === true) {
+				const index = newArray.findIndex((object) => {
+					return object.id === score.actID;
 				});
-			})
-		);
-	}, []);
 
-	console.log(filteredActivity);
+				newArray.splice(index);
+			}
+		});
+	});
 
 	return (
 		<div className="mt-5">
@@ -43,7 +56,9 @@ const StudentFeed = () => {
 					<Col md="9">
 						<div className=" rounded ">
 							<p>Activities</p>
-							{filteredActivity.map((item) => {
+							{newArray.map((item) => {
+								setSubjectID(item.subjectID);
+
 								return (
 									<div key={item.id} className="border my-3 p-3">
 										<div className="d-flex justify-content-between align-items-center">

@@ -37,11 +37,12 @@ export const ContextFunction = ({ children }) => {
 	const [filteredActivities, setFilteredActivities] = useState([]);
 	const [activityIDToRemove, setActivityIDToRemove] = useState('');
 	const [postAnnouncement, setPostAnnouncement] = useState([]);
-
+	const [scoreData, setScoreData] = useState([]);
 	const [activityData, setActivityData] = useState([]);
 	const [currentQuiz, setCurrentQuiz] = useState(0);
 	const [score, setScore] = useState(0);
 	const [answer, setAnswer] = useState('');
+	const [subjectID, setSubjectID] = useState('');
 	// For opening a modal
 	const [show, setShow] = useState(false);
 
@@ -135,6 +136,12 @@ export const ContextFunction = ({ children }) => {
 		});
 	}, []);
 
+	useEffect(() => {
+		onSnapshot(collection(db, 'score'), (snapShot) => {
+			setScoreData(snapShot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+		});
+	}, []);
+
 	const [activityID, setActivityID] = useState('');
 
 	const createActivities = async (id, activityID, subjectName) => {
@@ -221,6 +228,10 @@ export const ContextFunction = ({ children }) => {
 	return (
 		<ContextVariable.Provider
 			value={{
+				setSubjectID,
+				subjectID,
+				scoreData,
+				setScoreData,
 				postAnnouncement,
 				postShow,
 				setPostShow,
