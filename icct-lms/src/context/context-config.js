@@ -11,9 +11,7 @@ import {
 import {
 	setDoc,
 	doc,
-	getDocs,
 	collection,
-	addDoc,
 	onSnapshot,
 	arrayUnion,
 	updateDoc,

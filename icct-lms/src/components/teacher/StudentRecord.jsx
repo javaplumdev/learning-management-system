@@ -22,7 +22,7 @@ const StudentRecord = () => {
 				{final.map((item) => {
 					return (
 						<div
-							key={item.studentID}
+							key={item.scoreID}
 							className="d-flex justify-content-around border rounded p-2 my-3"
 						>
 							<p>{item.studentName}</p>

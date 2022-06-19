@@ -26,6 +26,8 @@ const QuizPage = () => {
 	} = useContext(ContextVariable);
 	const { id } = useParams();
 
+	const scoreID = uuidv4();
+
 	const activityToTake = activitiesData.filter((item) => item.quizID === id);
 	const subjectIDFinal = subjectData.filter(
 		(item) => item.subjectID === subjectID
@@ -60,12 +62,14 @@ const QuizPage = () => {
 		}
 
 		if (currentQuiz === activityData.length - 1) {
-			setDoc(doc(db, 'score', id), {
+			setDoc(doc(db, 'score', scoreID), {
+				scoreID: scoreID,
 				actID: id,
 				studentID: userID,
 				studentName: userEmail,
-				score: score + 1,
+				score: score,
 				subjectID: subjectIDToTake,
+				isTaken: true,
 			});
 		}
 	};
