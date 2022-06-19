@@ -15,6 +15,8 @@ import StudentRecord from './components/teacher/StudentRecord';
 import StudentProfile from './components/student/StudentProfile';
 import SubjectPage from './components/student/SubjectPage';
 import QuizPage from './components/student/QuizPage';
+import StudentAnnouncementPage from './components/student/StudentAnnouncementPage';
+import StudentGrades from './components/student/StudentGrades';
 // Router DOM
 import { Routes, Route } from 'react-router-dom';
 // Context
@@ -48,11 +50,15 @@ function App() {
 					<Route path="/studentrecord/:id" element={<StudentRecord />} />
 
 					{/* Student */}
-					{/* StudentProfile */}
 					<Route path="/studentprofile" element={<StudentProfile />} />
 					<Route path="/subjectpage/:id" element={<SubjectPage />} />
 					<Route path="/quizpage/:id" element={<QuizPage />} />
 					<Route path="/signup" element={<Signup />} />
+					<Route
+						path="/studentannouncement/:id"
+						element={<StudentAnnouncementPage />}
+					/>
+					<Route path="/studentgrades/:id" element={<StudentGrades />} />
 				</Routes>
 			</div>
 		</ContextFunction>

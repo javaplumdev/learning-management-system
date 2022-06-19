@@ -25,26 +25,47 @@ const SubjectPage = () => {
 				<Row>
 					<Col md="3">
 						<div className="bg-primary text-white p-3 rounded">
-							<p>Announcement</p>
-							<p>Your grade</p>
+							<Link
+								to={`/studentannouncement/${id}`}
+								className="text-white text-decoration-none"
+							>
+								Announcement
+							</Link>
+							<br></br>
+							<Link
+								to={`/studentgrades/${id}`}
+								className="text-white text-decoration-none"
+							>
+								Your grade
+							</Link>
+
 							<p>Members</p>
 						</div>
 					</Col>
 					<Col md="9">
-						{activities.map((item) => {
-							return (
-								<div key={item.quizID} className="border p-3 rounded mb-3">
-									<div className="d-flex justify-content-between align-items-center">
-										<b>{item.quizName}</b>
+						{activities.length === 0 ? (
+							<div
+								className="justify-content-center align-items-center d-flex"
+								style={{ height: '100px' }}
+							>
+								<h4>No activities yet</h4>
+							</div>
+						) : (
+							activities.map((item) => {
+								return (
+									<div key={item.quizID} className="border p-3 rounded mb-3">
+										<div className="d-flex justify-content-between align-items-center">
+											<b>{item.quizName}</b>
 
-										<Button>Take quiz</Button>
+											<Button>Take quiz</Button>
+										</div>
+										<div className="mt-3">
+											<p>{item.quizDescription}</p>
+										</div>
 									</div>
-									<div className="mt-3">
-										<p>{item.quizDescription}</p>
-									</div>
-								</div>
-							);
-						})}
+								);
+							})
+						)}
 					</Col>
 				</Row>
 			</Container>
