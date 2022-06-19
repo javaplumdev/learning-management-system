@@ -19,15 +19,17 @@ const StudentFeed = () => {
 		scoreData,
 	} = useContext(ContextVariable);
 
+	let studentFeed = activitiesData;
+
 	scoreData.map((item) => {
 		if (item.studentID === userID) {
 			if (item.isTaken === true) {
-				const index = activitiesData.findIndex((object) => {
+				const index = studentFeed.findIndex((object) => {
 					return object.quizID === item.actID;
 				});
 
 				if (index > -1) {
-					activitiesData.splice(index, 1); // 2nd parameter means remove one item only
+					studentFeed.splice(index, 1); // 2nd parameter means remove one item only
 				}
 			}
 		}
@@ -43,8 +45,7 @@ const StudentFeed = () => {
 					<Col md="9">
 						<div className=" rounded ">
 							<p>Activities</p>
-							{activitiesData.map((item) => {
-								setSubjectID(item.subjectID);
+							{studentFeed.map((item) => {
 								return (
 									<div key={item.id} className="border my-3 p-3">
 										<div className="d-flex justify-content-between align-items-center">

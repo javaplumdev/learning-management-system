@@ -29,11 +29,7 @@ const QuizPage = () => {
 	const scoreID = uuidv4();
 
 	const activityToTake = activitiesData.filter((item) => item.quizID === id);
-	const subjectIDFinal = subjectData.filter(
-		(item) => item.subjectID === subjectID
-	);
-
-	const subjectIDToTake = subjectIDFinal.map((item) => item.subjectID)[0];
+	const subjectIDSample = activitiesData.filter((item) => item.quizID === id);
 
 	useEffect(() => {
 		activityToTake.map((item) => {
@@ -68,8 +64,9 @@ const QuizPage = () => {
 				studentID: userID,
 				studentName: userEmail,
 				score: score,
-				subjectID: subjectIDToTake,
+				subjectID: subjectIDSample.map((item) => item.subjectID)[0],
 				isTaken: true,
+				quizName: activityToTake.map((item) => item.quizName)[0],
 			});
 		}
 	};

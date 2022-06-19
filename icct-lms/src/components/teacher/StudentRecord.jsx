@@ -25,8 +25,15 @@ const StudentRecord = () => {
 							key={item.scoreID}
 							className="d-flex justify-content-around border rounded p-2 my-3"
 						>
-							<p>{item.studentName}</p>
-							<p>{item.score}</p>
+							<div className="text-center">
+								Student name<br></br>
+								<p>{item.studentName}</p>
+							</div>
+							<div className="text-center">
+								Student grades<br></br>
+								{item.quizName} ---
+								<b> {item.score}</b>
+							</div>
 						</div>
 					);
 				})}

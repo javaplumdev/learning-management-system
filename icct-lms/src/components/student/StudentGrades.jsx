@@ -12,6 +12,8 @@ const StudentGrades = () => {
 		(item) => item.subjectID === id && item.studentID === userID
 	);
 
+	console.log(studentGrades);
+
 	return (
 		<>
 			<StudentNavbarComponent />
@@ -28,10 +30,21 @@ const StudentGrades = () => {
 							return (
 								<div
 									key={item.scoreID}
-									className="d-flex justify-content-around my-3"
+									className="d-flex justify-content-around my-3 shadow rounded p-3"
 								>
-									<p>{item.studentName}</p>
-									<b>{item.score}</b>
+									<div className="text-center">
+										<p>
+											Student name <br></br>
+											{item.studentName}
+										</p>
+									</div>
+									<div className="text-center">
+										<p>
+											{item.quizName}
+											<br></br>
+											<b>{item.score}</b>
+										</p>
+									</div>
 								</div>
 							);
 						})
