@@ -158,7 +158,14 @@ const TeacherSubjectPage = () => {
 									to={`/studentrecord/${id}`}
 									className="text-white text-decoration-none "
 								>
-									Students
+									Student grades
+								</Link>
+								<br></br>
+								<Link
+									to={`/students-enrolled/${id}`}
+									className="text-white text-decoration-none "
+								>
+									Student enrolled
 								</Link>
 								<br></br>
 								<Link

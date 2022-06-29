@@ -6,9 +6,26 @@ import StudentNavbarComponent from './StudentNavbarComponent';
 import { Row, Col } from 'react-bootstrap';
 
 const SubjectPage = () => {
-	const { subjectData, activitiesData } = useContext(ContextVariable);
+	const { subjectData, activitiesData, userID } = useContext(ContextVariable);
+
 	const { id } = useParams();
 	const activities = activitiesData.filter((act) => act.subjectID === id);
+
+	const leaveClass = ({ id }) => {
+		const finalSubData = subjectData.map((item) => item.studentsEnrolled)[0];
+
+		const index = finalSubData.findIndex((object) => {
+			return object.id === id;
+		});
+
+		if (index > -1) {
+			// only splice array when item is found
+			finalSubData.splice(index, 1); // 2nd parameter means remove one item only
+		}
+
+		console.log(finalSubData);
+	};
+
 	return (
 		<>
 			<StudentNavbarComponent />
@@ -39,7 +56,24 @@ const SubjectPage = () => {
 								Your grade
 							</Link>
 
-							<p>Members</p>
+							<Link
+								to={`/subjectmembers/${id}`}
+								className="text-white text-decoration-none"
+							>
+								<p>Members</p>
+							</Link>
+
+							<Button
+								variant="outline-light"
+								onClick={() => leaveClass(userID)}
+							>
+								<Link
+									to="/studenthomepage"
+									className="text-decoration-none text-dark"
+								>
+									Leave class
+								</Link>
+							</Button>
 						</div>
 					</Col>
 					<Col md="9">

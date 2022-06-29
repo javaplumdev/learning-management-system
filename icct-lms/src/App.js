@@ -11,12 +11,14 @@ import TeacherSubjectPage from './components/teacher/TeacherSubjectPage';
 import CreateQuiz from './components/teacher/CreateQuiz';
 import AnnouncementPage from './components/teacher/AnnouncementPage';
 import StudentRecord from './components/teacher/StudentRecord';
+import StudentsEnrolled from './components/teacher/StudentsEnrolled';
 // Student
 import StudentProfile from './components/student/StudentProfile';
 import SubjectPage from './components/student/SubjectPage';
 import QuizPage from './components/student/QuizPage';
 import StudentAnnouncementPage from './components/student/StudentAnnouncementPage';
 import StudentGrades from './components/student/StudentGrades';
+import SubjectMembers from './components/student/SubjectMembers';
 // Router DOM
 import { Routes, Route } from 'react-router-dom';
 // Context
@@ -44,6 +46,7 @@ function App() {
 						path="/teacherspage/:subjectName/:id"
 						element={<TeacherSubjectPage />}
 					/>
+					<Route path="/students-enrolled/:id" element={<StudentsEnrolled />} />
 
 					<Route path="/announcementpage/:id" element={<AnnouncementPage />} />
 					<Route path="/createquiz/:subjectName/:id" element={<CreateQuiz />} />
@@ -59,6 +62,7 @@ function App() {
 						element={<StudentAnnouncementPage />}
 					/>
 					<Route path="/studentgrades/:id" element={<StudentGrades />} />
+					<Route path="/subjectmembers/:id" element={<SubjectMembers />} />
 				</Routes>
 			</div>
 		</ContextFunction>
